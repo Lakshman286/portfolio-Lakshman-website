@@ -1,79 +1,143 @@
-// Theme Toggle
-const themeToggle = document.getElementById('themeToggle');
-const body = document.body;
-let darkMode = localStorage.getItem('darkMode') === 'true';
-
-// Initialize theme
-if (darkMode) {
-  body.setAttribute('data-theme', 'dark');
-  themeToggle.innerHTML = '<i class="fas fa-sun"></i><span class="sr-only">Toggle Theme</span>';
-} else {
-  themeToggle.innerHTML = '<i class="fas fa-moon"></i><span class="sr-only">Toggle Theme</span>';
-}
-
-// Theme toggle event
-themeToggle.addEventListener('click', () => {
-  darkMode = !darkMode;
-  localStorage.setItem('darkMode', darkMode);
-  if (darkMode) {
-    body.setAttribute('data-theme', 'dark');
+document.addEventListener('DOMContentLoaded', function() {
+  // Theme toggle functionality
+  const themeToggle = document.getElementById('themeToggle');
+  const currentTheme = localStorage.getItem('theme') || 'light';
+  
+  // Set initial theme
+  document.documentElement.setAttribute('data-theme', currentTheme);
+  
+  // Update icon based on theme
+  if (currentTheme === 'dark') {
     themeToggle.innerHTML = '<i class="fas fa-sun"></i><span class="sr-only">Toggle Theme</span>';
-  } else {
-    body.removeAttribute('data-theme');
-    themeToggle.innerHTML = '<i class="fas fa-moon"></i><span class="sr-only">Toggle Theme</span>';
   }
-});
-
-// Navigation
-document.querySelectorAll('nav a').forEach(anchor => {
-  anchor.addEventListener('click', function(e) {
-    e.preventDefault();
-    document.querySelectorAll('nav a').forEach(link => link.classList.remove('active'));
-    this.classList.add('active');
-    const targetId = this.getAttribute('href');
-    document.querySelector(targetId).scrollIntoView({ behavior: 'smooth' });
+  
+  themeToggle.addEventListener('click', () => {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    
+    // Update icon
+    themeToggle.innerHTML = newTheme === 'dark' 
+      ? '<i class="fas fa-sun"></i><span class="sr-only">Toggle Theme</span>'
+      : '<i class="fas fa-moon"></i><span class="sr-only">Toggle Theme</span>';
   });
-});
-
-// Scroll handling
-window.addEventListener('scroll', () => {
-  const scrollPosition = window.scrollY;
-  document.querySelectorAll('section').forEach(section => {
-    const sectionTop = section.offsetTop - 100;
-    const sectionHeight = section.offsetHeight;
-    const sectionId = section.getAttribute('id');
-    if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+  
+  // Smooth scrolling for navigation
+  document.querySelectorAll('nav a').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      const targetId = this.getAttribute('href');
+      const targetElement = document.querySelector(targetId);
+      
+      window.scrollTo({
+        top: targetElement.offsetTop - 70,
+        behavior: 'smooth'
+      });
+      
+      // Update active nav link
       document.querySelectorAll('nav a').forEach(link => {
         link.classList.remove('active');
-        if (link.getAttribute('href') === `#${sectionId}`) {
-          link.classList.add('active');
+      });
+      this.classList.add('active');
+    });
+  });
+  
+  // Back to top button
+  const backToTopBtn = document.getElementById('backToTop');
+  
+  window.addEventListener('scroll', () => {
+    if (window.pageYOffset > 300) {
+      backToTopBtn.classList.add('active');
+    } else {
+      backToTopBtn.classList.remove('active');
+    }
+  });
+  
+  backToTopBtn.addEventListener('click', () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  });
+  
+  // Set current year in footer
+  document.getElementById('currentYear').textContent = new Date().getFullYear();
+  
+  // Form submission handling
+  const contactForm = document.getElementById('contactForm');
+  const formMessage = document.getElementById('formMessage');
+  
+  contactForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const submitBtn = contactForm.querySelector('.submit-btn');
+    const btnText = submitBtn.querySelector('.btn-text');
+    const originalText = btnText.textContent;
+    
+    submitBtn.disabled = true;
+    btnText.textContent = 'Sending...';
+    
+    try {
+      const response = await fetch(contactForm.action, {
+        method: 'POST',
+        body: new FormData(contactForm),
+        headers: {
+          'Accept': 'application/json'
         }
       });
+      
+      if (response.ok) {
+        formMessage.textContent = 'Message sent successfully! I will get back to you soon.';
+        formMessage.className = 'form-message success';
+        contactForm.reset();
+      } else {
+        throw new Error('Form submission failed');
+      }
+    } catch (error) {
+      formMessage.textContent = 'There was an error sending your message. Please try again later.';
+      formMessage.className = 'form-message error';
+      console.error('Form submission error:', error);
+    } finally {
+      submitBtn.disabled = false;
+      btnText.textContent = originalText;
+      
+      // Hide message after 5 seconds
+      setTimeout(() => {
+        formMessage.textContent = '';
+        formMessage.className = 'form-message';
+      }, 5000);
     }
   });
-  animateOnScroll('.timeline-item', 'visible');
-  animateOnScroll('.skill-item', 'visible');
-  animateSkillBars();
-});
-
-// Animation functions
-function animateOnScroll(selector, className) {
-  const elements = document.querySelectorAll(selector);
-  elements.forEach(element => {
-    const elementPosition = element.getBoundingClientRect().top;
-    const screenPosition = window.innerHeight / 1.3;
-    if (elementPosition < screenPosition) {
-      element.classList.add(className);
-    }
+  
+  // Portfolio filtering
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const portfolioItems = document.querySelectorAll('.portfolio-item');
+  
+  filterButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      // Update active filter button
+      filterButtons.forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+      
+      const filterValue = button.getAttribute('data-filter');
+      
+      // Filter portfolio items
+      portfolioItems.forEach(item => {
+        if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    });
   });
-}
-
-function animateSkillBars() {
-  const skillBars = document.querySelectorAll('.skill-progress-bar');
-  const skillsSection = document.getElementById('resume');
-  const sectionPosition = skillsSection.getBoundingClientRect().top;
-  const screenPosition = window.innerHeight / 2;
-  if (sectionPosition < screenPosition) {
+  
+  // Animate skill bars on scroll
+  const animateSkillBars = () => {
+    const skillBars = document.querySelectorAll('.skill-progress-bar');
     skillBars.forEach(bar => {
       const width = bar.style.width;
       bar.style.width = '0';
@@ -81,58 +145,20 @@ function animateSkillBars() {
         bar.style.width = width;
       }, 100);
     });
-  }
-}
-
-// Portfolio filtering
-const filterBtns = document.querySelectorAll('.filter-btn');
-const portfolioItems = document.querySelectorAll('.portfolio-item');
-
-filterBtns.forEach(btn => {
-  btn.addEventListener('click', () => {
-    filterBtns.forEach(btn => btn.classList.remove('active'));
-    btn.classList.add('active');
-    const filterValue = btn.dataset.filter;
-    portfolioItems.forEach(item => {
-      item.classList.remove('animate');
-      if (filterValue === 'all' || item.dataset.category === filterValue) {
-        item.style.display = 'block';
-        setTimeout(() => {
-          item.classList.add('animate');
-        }, 50);
-      } else {
-        item.style.display = 'none';
+  };
+  
+  // Intersection Observer for skill bars animation
+  const skillsSection = document.querySelector('#resume');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animateSkillBars();
+        observer.unobserve(entry.target);
       }
     });
-  });
-});
-
-// Initial portfolio animation
-portfolioItems.forEach((item, index) => {
-  setTimeout(() => {
-    item.classList.add('animate');
-  }, index * 100);
-});
-
-// Resume download
-const downloadBtn = document.getElementById('downloadResume');
-if (downloadBtn) {
-  downloadBtn.addEventListener('click', () => {
-    const link = document.createElement('a');
-    link.href = './resume.pdf';
-    link.download = 'Golla_Vara_Lakshman_Naidu_Resume.pdf';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    downloadBtn.innerHTML = '<i class="fas fa-check"></i> Download Started!';
-    setTimeout(() => {
-      downloadBtn.innerHTML = '<i class="fas fa-download"></i> Download Resume';
-    }, 2000);
-  });
-}
-
-// DOMContentLoaded
-document.addEventListener('DOMContentLoaded', () => {
-  // Set current year
-  document.getElementById('currentYear').textContent = new Date().getFullYear();
+  }, { threshold: 0.1 });
+  
+  if (skillsSection) {
+    observer.observe(skillsSection);
+  }
 });

@@ -1,272 +1,297 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Golla Vara Lakshman Naidu - Frontend Developer</title>
   <meta name="description" content="Portfolio of Golla Vara Lakshman Naidu, Frontend Developer specializing in web development and AI integration">
-  <meta property="og:title" content="Golla Vara Lakshman Naidu - Frontend Developer">
-  <meta property="og:description" content="Portfolio of Golla Vara Lakshman Naidu, Frontend Developer specializing in web development and AI integration">
-  <meta property="og:image" content="./profile.png">
-  <meta name="twitter:card" content="summary_large_image">
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-  <div class="form-saved-notice" id="savedDataNotice">
-    <i class="fas fa-save"></i> <span>Your form data has been saved</span>
-  </div>
-
   <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light theme">
     <i class="fas fa-moon"></i>
     <span class="sr-only">Toggle Theme</span>
   </button>
-
+  
   <header>
-    <img src="hero-bg.jpg" alt="Golla Vara Lakshman Naidu profile photo" class="profile-img floating" onerror="this.src='fallback-image.png'">
+    <img src="hero-bg.jpg" alt="Golla Vara Lakshman Naidu" class="profile-img floating">
     <h1>Golla Vara Lakshman Naidu</h1>
     <p class="title">Frontend Developer</p>
     <span class="badge">Available for freelance</span>
   </header>
-
-  <nav>
+  
+  <nav id="mainNav">
     <a href="#about" class="active">About</a>
     <a href="#resume">Resume</a>
     <a href="#portfolio">Portfolio</a>
     <a href="#contact">Contact</a>
   </nav>
-
   
   <main>
-    <!-- About Section -->
     <section id="about">
       <h2>About Me</h2>
       <div class="about-content">
-        <div>
-          <p>Hey! I’m <strong>Golla Vara Lakshman Naidu</strong>, a frontend developer who loves turning ideas into interactive and elegant websites. With a strong grasp of JavaScript and a growing curiosity for AI, I aim to build things that are not just functional — but smart.</p>
-
-          <p>I take pride in blending code with creativity to bring digital experiences to life.</p>
-
-          <p>When I’m not busy building or learning, I dive into open-source, explore design concepts, or dream up the next cool feature I can develop.</p>
-
-        </div>
+        <p>I'm a frontend developer with a passion for crafting intuitive and responsive user interfaces. I specialize in building web apps using HTML, CSS, JavaScript, and Streamlit.</p>
+        <p>My recent work includes developing EduChat AI - a smart college chatbot powered by ChromaDB and LLaMA via Qilama that helps students with academic queries and campus information.</p>
       </div>
-
-      <h3>What I Do</h3>
+      
+      <hr>
+      
+      <h2>What I Do</h2>
       <div class="services">
         <div class="service-card">
           <div class="service-icon"><i class="fas fa-code"></i></div>
-          <h4 class="service-title">Web Development</h4>
-          <p>Building responsive, accessible websites and web applications using modern technologies.</p>
+          <h3 class="service-title">Frontend Development</h3>
+          <p>Building responsive and interactive web interfaces with modern technologies like React, Vue, and Angular.</p>
         </div>
+        
         <div class="service-card">
-          <div class="service-icon"><i class="fas fa-mobile-alt"></i></div>
-          <h4 class="service-title">Responsive Design</h4>
-          <p>Creating designs that work beautifully across all devices and screen sizes.</p>
+          <div class="service-icon"><i class="fas fa-paint-brush"></i></div>
+          <h3 class="service-title">UI/UX Design</h3>
+          <p>Creating beautiful and user-friendly designs that enhance user experience using Figma and Adobe XD.</p>
         </div>
+        
         <div class="service-card">
           <div class="service-icon"><i class="fas fa-robot"></i></div>
-          <h4 class="service-title">AI Integration</h4>
-          <p>Implementing AI features like chatbots, recommendation systems, and automation.</p>
+          <h3 class="service-title">AI Integration</h3>
+          <p>Developing smart applications with LLM and chatbot technologies like LLaMA and ChromaDB.</p>
         </div>
       </div>
     </section>
-
-    <!-- Resume Section -->
+    
     <section id="resume">
-      <h2>My Resume</h2>
+      <h2>Resume</h2>
       <div class="resume-container">
-        <div>
+        <div class="resume-column">
           <h3>Education</h3>
           <div class="timeline">
             <div class="timeline-item">
-              <div class="timeline-date">2023-2027</div>
-              <h4 class="timeline-title">Bachelor's in Electronics and Communication Engineering</h4>
-              <p class="timeline-text">CGPA : 7.15</p>
-              <p class="timeline-text">CHALAPATHI INSTITUTE OF ENGINEERING AND TECHNOLOGY</p>
-              <p class="timeline-text">Specialized in Web Technologies and AI Fundamentals</p>
+              <div class="timeline-date">2023 - Present</div>
+              <h4 class="timeline-title">B.Tech in Electronics and Communication Engineering</h4>
+              <p class="timeline-text">Chalapathi Institute of Engineering and Technology</p>
+              <p class="timeline-text">GPA: 7.5/10</p>
             </div>
-        <div>
+          </div>
+        </div>
+        
+        <div class="resume-column">
           <h3>Experience</h3>
           <div class="timeline">
             <div class="timeline-item">
               <div class="timeline-date">2024 - Present</div>
-              <h4 class="timeline-title">Frontend Developer</h4>
-              <p class="timeline-text">Freelance</p>
-              <p class="timeline-text">Developed a portfolio websites .</p>
-            </div>
-            <div class="timeline-item">
-              <div class="timeline-date">2024 - Present</div>
-              <h4 class="timeline-title">Junior Web Developer</h4>
-              <p class="timeline-text">Tech Solutions Inc.</p>
-              <p class="timeline-text">Worked on a self web portfolio.</p>
+              <h4 class="timeline-title">Frontend Developer Intern</h4>
+              <p class="timeline-text">Developed Streamlit-based AI projects with real-time chatbot functionality.</p>
+              <p class="timeline-text">Optimized web performance by 30% through code splitting.</p>
             </div>
           </div>
         </div>
       </div>
-
-      <h3 style="margin-top: 2rem;">My Skills</h3>
+      
+      <h3 class="skills-heading">My Skills</h3>
       <div class="skills-container">
         <div class="skill-item">
           <div class="skill-info">
-            <span class="skill-name">HTML/CSS</span>
-            <span class="skill-percent">75%</span>
+            <span class="skill-name">HTML</span>
+            <span class="skill-percent">90%</span>
           </div>
           <div class="skill-progress">
-            <div class="skill-progress-bar" style="width: 95%;"></div>
+            <div class="skill-progress-bar" style="width: 90%"></div>
           </div>
         </div>
+
+        <div class="skill-item">
+          <div class="skill-info">
+            <span class="skill-name">CSS</span>
+            <span class="skill-percent">70%</span>
+          </div>
+          <div class="skill-progress">
+            <div class="skill-progress-bar" style="width: 70%"></div>
+          </div>
+        </div>
+
         <div class="skill-item">
           <div class="skill-info">
             <span class="skill-name">JavaScript</span>
             <span class="skill-percent">70%</span>
           </div>
           <div class="skill-progress">
-            <div class="skill-progress-bar" style="width: 90%;"></div>
+            <div class="skill-progress-bar" style="width: 70%"></div>
           </div>
         </div>
+
         <div class="skill-item">
           <div class="skill-info">
-            <span class="skill-name">API Knowledge</span>
-            <span class="skill-percent">65%</span>
+            <span class="skill-name">Python</span>
+            <span class="skill-percent">80%</span>
           </div>
           <div class="skill-progress">
-            <div class="skill-progress-bar" style="width: 85%;"></div>
+            <div class="skill-progress-bar" style="width: 80%"></div>
           </div>
         </div>
+
+        <div class="skill-item">
+          <div class="skill-info">
+            <span class="skill-name">Streamlit</span>
+            <span class="skill-percent">85%</span>
+          </div>
+          <div class="skill-progress">
+            <div class="skill-progress-bar" style="width: 85%"></div>
+          </div>
+        </div>
+
+        <div class="skill-item">
+          <div class="skill-info">
+            <span class="skill-name">LLM Integration</span>
+            <span class="skill-percent">75%</span>
+          </div>
+          <div class="skill-progress">
+            <div class="skill-progress-bar" style="width: 75%"></div>
+          </div>
         </div>
       </div>
-
-      <button id="downloadResume" class="download-btn">
-        <i class="fas fa-download"></i> Download Resume
-      </button>
-
+      
+      <div class="resume-download">
+        <button class="download-btn" id="downloadResume">
+          <i class="fas fa-download"></i> Download Resume
+        </button>
+      </div>
     </section>
-
-    <!-- Portfolio Section -->
+    
     <section id="portfolio">
-      <h2>My Portfolio</h2>
+      <h2>Portfolio</h2>
       <div class="portfolio-filter">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="web">Web Development</button>
+        <button class="filter-btn" data-filter="ai">AI Projects</button>
       </div>
+      
       <div class="portfolio-grid">
-        <div class="portfolio-item" data-category="web">
-          <img src="project1.jpg" alt="E-commerce Website" class="portfolio-img">
-          <div class="portfolio-content">
-            <h3 class="portfolio-title">EDUCHART-AI</h3>
-            <span class="portfolio-category">An AI-powered dashboard that visualizes student performance and generates adaptive learning plans.</span>
-          </div>
-        </div>
         <div class="portfolio-item" data-category="ai">
-          <img src="project2.png" alt="AI Chatbot" class="portfolio-img">
+          <div class="portfolio-img-container">
+            <img src="project1.jpg" alt="EduChat AI" class="portfolio-img" loading="lazy">
+            <div class="portfolio-overlay">
+              <a href="#" class="portfolio-link" aria-label="View EduChat AI project">
+                <i class="fas fa-expand"></i>
+              </a>
+            </div>
+          </div>
           <div class="portfolio-content">
-            <h3 class="portfolio-title">PORTFOLIO WEB</h3>
-            <span class="portfolio-category">I hold a Bachelor of Technology (B.Tech) in Electronics and Communication Engineering from Chalapathi Institute of Technology. My academic journey helped me build a solid foundation in both hardware and software concepts.</span>
+            <h3 class="portfolio-title">EduChat AI</h3>
+            <span class="portfolio-category">AI Project</span>
+            <p>A smart college chatbot powered by LLaMA and ChromaDB.</p>
+            <div class="portfolio-tech">
+              <span>Python</span>
+              <span>LLaMA</span>
+              <span>ChromaDB</span>
+            </div>
           </div>
         </div>
         
+        <div class="portfolio-item" data-category="web">
+          <div class="portfolio-img-container">
+            <img src="project2.png" alt="Portfolio Website" class="portfolio-img" loading="lazy">
+            <div class="portfolio-overlay">
+              <a href="#" class="portfolio-link" aria-label="View Portfolio Website">
+                <i class="fas fa-expand"></i>
+              </a>
+            </div>
+          </div>
+          <div class="portfolio-content">
+            <h3 class="portfolio-title">Portfolio Website</h3>
+            <span class="portfolio-category">Web Development</span>
+            <p>Responsive portfolio website with dark/light mode.</p>
+            <div class="portfolio-tech">
+              <span>HTML5</span>
+              <span>CSS3</span>
+              <span>JavaScript</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
     <section id="contact">
       <h2>Contact Me</h2>
       <div class="contact-container">
-        <div>
+        <div class="contact-info-container">
           <div class="contact-info">
             <h3>Get in Touch</h3>
-            <p>Feel free to reach out for collaborations or just a friendly hello!</p>
-
-            <div class="contact-item">
-              <div class="contact-icon"><i class="fas fa-envelope"></i></div>
-              <div class="contact-text"><a href="mailto:naidugolla286@gmail.com">naidugolla286@gmail.com</a></div>
-            </div>
-            <div class="contact-item">
-              <div class="contact-icon"><i class="fas fa-phone"></i></div>
-              <div class="contact-text"><a href="tel:+918179813994">+91 8179813994</a></div>
-            </div>
-            <div class="contact-item">
-              <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
-              <div class="contact-text">Andhra Pradesh, India</div>
+            <p>Feel free to reach out for collaboration or just a friendly hello!</p>
+            
+            <div class="contact-details">
+              <div class="contact-item">
+                <i class="fas fa-envelope"></i>
+                <span>naidugolla286@gmail.com</span>
+              </div>
+              <div class="contact-item">
+                <i class="fas fa-phone"></i>
+                <span>+91 8179813994</span>
+              </div>
+              <div class="contact-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>Andhra Pradesh, India</span>
+              </div>
             </div>
           </div>
-
+          
           <div class="social-links">
-            <a href="https://github.com/Lakshman286" class="social-link"><i class="fab fa-github"></i></a>
-            <a href="https://linkedin.com/in/naidugolla" class="social-link"><i class="fab fa-linkedin-in"></i></a>
-            <a href="https://twitter.com/naidugolla" class="social-link"><i class="fab fa-twitter"></i></a>
+            <a href="https://github.com/Lakshman286" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+              <i class="fab fa-github"></i>
+            </a>
+            <a href="https://linkedin.com/in/naidugolla" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+              <i class="fab fa-linkedin-in"></i>
+            </a>
+            <a href="https://twitter.com/naidugolla" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+              <i class="fab fa-twitter"></i>
+            </a>
           </div>
         </div>
-
-        <!-- ✅ UPDATED CONTACT FORM WITH FORM SUCCESS/ERROR HANDLING -->
-        <div>
+        
+        <div class="contact-form-container">
           <form class="contact-form" id="contactForm" action="https://formspree.io/f/mzzrokyk" method="POST">
-            <input type="hidden" name="_next" value="#contact">
-            <input type="hidden" name="_subject" value="New message from your portfolio!">
-
+            <div id="formMessage" class="form-message"></div>
+            
             <div class="form-group">
-              <label for="name">Your Name</label>
-              <input type="text" id="name" name="name" required minlength="2" placeholder="Your Name">
+              <input type="text" id="name" name="name" placeholder="Your Name" required>
             </div>
-
+            
             <div class="form-group">
-              <label for="email">Your Email</label>
-              <input type="email" id="email" name="email" required placeholder="Your Email">
+              <input type="email" id="email" name="email" placeholder="Your Email" required>
             </div>
-
+            
             <div class="form-group">
-              <label for="subject">Subject</label>
               <input type="text" id="subject" name="subject" placeholder="Subject">
             </div>
-
+            
             <div class="form-group">
-              <label for="message">Message</label>
-              <textarea id="message" name="message" placeholder="Your Message" required></textarea>
+              <textarea id="message" name="message" placeholder="Message" required></textarea>
             </div>
-
-            <button type="submit" class="submit-btn">Send Message</button>
-            <p id="formStatus" class="form-status" style="margin-top: 1rem;"></p>
+            
+            <button type="submit" class="submit-btn">
+              <span class="btn-text">Send Message</span>
+              <i class="fas fa-paper-plane"></i>
+            </button>
           </form>
         </div>
       </div>
     </section>
   </main>
-
+  
   <footer>
-    <p>© <span id="currentYear"></span> Golla Vara Lakshman Naidu. All rights reserved.</p>
+    <div class="footer-content">
+      <p>© <span id="currentYear"></span> Golla Vara Lakshman Naidu. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="#about">About</a>
+        <a href="#resume">Resume</a>
+        <a href="#portfolio">Portfolio</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+    <div class="back-to-top" id="backToTop">
+      <i class="fas fa-arrow-up"></i>
+    </div>
   </footer>
-
-  <script>
-    // Contact form submission with success/error handling
-    document.getElementById('contactForm').addEventListener('submit', async function (e) {
-      e.preventDefault();
-      const form = e.target;
-      const status = document.getElementById('formStatus');
-      const data = new FormData(form);
-
-      try {
-        const response = await fetch(form.action, {
-          method: form.method,
-          body: data,
-          headers: {
-            'Accept': 'application/json'
-          }
-        });
-
-        if (response.ok) {
-          status.textContent = "✅ Thanks for your message!";
-          status.style.color = "green";
-          form.reset();
-        } else {
-          status.textContent = "❌ Oops! Something went wrong.";
-          status.style.color = "red";
-        }
-      } catch (error) {
-        status.textContent = "⚠️ Network error. Please try again.";
-        status.style.color = "red";
-      }
-    });
-
-    // Dynamic copyright
-    document.getElementById("currentYear").textContent = new Date().getFullYear();
-  </script>
 
   <script src="script.js"></script>
 </body>

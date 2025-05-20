@@ -35,9 +35,6 @@ body {
   background-attachment: fixed;
   transition: all 0.5s ease;
   min-height: 100vh;
-  margin: 0;
-  padding: 0;
-  color: #333;
 }
 
 [data-theme="dark"] body {

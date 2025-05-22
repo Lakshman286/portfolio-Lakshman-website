@@ -111,6 +111,21 @@ document.addEventListener('DOMContentLoaded', function() {
       }, 5000);
     }
   });
+
+  // Animate title underline when in view
+  const titles = document.querySelectorAll('.title');
+
+  const titleObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('animate');
+        titleObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  titles.forEach(title => titleObserver.observe(title));
+
   
   // Portfolio filtering
   const filterButtons = document.querySelectorAll('.filter-btn');
@@ -161,4 +176,10 @@ document.addEventListener('DOMContentLoaded', function() {
   if (skillsSection) {
     observer.observe(skillsSection);
   }
+});
+
+// Add to script.js
+document.getElementById('downloadResume')?.addEventListener('click', () => {
+  // Replace with your actual resume URL
+  window.open('path/to/your/resume.pdf', '_blank');
 });

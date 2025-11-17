@@ -1,262 +1,208 @@
-// Scroll animations
-const animateOnScroll = () => {
-  const elements = document.querySelectorAll('[data-animate]');
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        observer.unobserve(entry.target);
+// Loading functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      // Minimum display time for loading screen (3 seconds)
+      const minLoadTime = 3000;
+      const loadStartTime = Date.now();
+      
+      function hideLoadingScreen() {
+        const elapsedTime = Date.now() - loadStartTime;
+        const remainingTime = Math.max(0, minLoadTime - elapsedTime);
+        
+        setTimeout(function() {
+          document.body.classList.add('loaded');
+          
+          // Remove loading screen from DOM after fade out completes
+          setTimeout(function() {
+            const loadingScreen = document.getElementById('loading-screen');
+            if (loadingScreen) {
+              loadingScreen.remove();
+            }
+          }, 500); // Match the CSS transition time
+        }, remainingTime);
       }
-    });
-  }, {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-  });
+      
+      // Check if all resources are loaded
+      if (document.readyState === 'complete') {
+        hideLoadingScreen();
+      } else {
+        window.addEventListener('load', hideLoadingScreen);
+      }
+      
+      // Theme toggle functionality
+      const themeToggle = document.getElementById('themeToggle');
+      const currentTheme = localStorage.getItem('theme') || 'light';
 
-  elements.forEach(el => observer.observe(el));
-};
+      document.documentElement.setAttribute('data-theme', currentTheme);
 
-document.addEventListener('DOMContentLoaded', function () {
+      if (currentTheme === 'dark') {
+        themeToggle.innerHTML = '<i class="fas fa-sun"></i><span class="sr-only">Toggle Theme</span>';
+      }
 
-  // Initialize scroll animations
-  animateOnScroll();
+      themeToggle.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
 
-  // Theme toggle functionality
-  const themeToggle = document.getElementById('themeToggle');
-  const currentTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
 
-  document.documentElement.setAttribute('data-theme', currentTheme);
+        themeToggle.innerHTML =
+          newTheme === 'dark'
+            ? '<i class="fas fa-sun"></i><span class="sr-only">Toggle Theme</span>'
+            : '<i class="fas fa-moon"></i><span class="sr-only">Toggle Theme</span>';
+      });
 
-  if (currentTheme === 'dark') {
-    themeToggle.innerHTML = '<i class="fas fa-sun"></i><span class="sr-only">Toggle Theme</span>';
-  }
+      // Smooth scrolling + Active link on click
+      const navLinks = document.querySelectorAll('nav a');
+      navLinks.forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
 
-  themeToggle.addEventListener('click', () => {
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+          const targetId = this.getAttribute('href');
+          const targetElement = document.querySelector(targetId);
 
-    document.documentElement.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
+          if (targetElement) {
+            targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      });
 
-    themeToggle.innerHTML =
-      newTheme === 'dark'
-        ? '<i class="fas fa-sun"></i><span class="sr-only">Toggle Theme</span>'
-        : '<i class="fas fa-moon"></i><span class="sr-only">Toggle Theme</span>';
-  });
+      // Highlight nav link based on scroll position
+      const sections = document.querySelectorAll('main section[id]');
+      window.addEventListener('scroll', () => {
+        let currentSectionId = '';
 
-  // Smooth scrolling + Active nav link
-  const navLinks = document.querySelectorAll('nav a');
-  navLinks.forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-      e.preventDefault();
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.offsetHeight;
 
-      const targetId = this.getAttribute('href');
-      const targetElement = document.querySelector(targetId);
+          if (scrollY >= sectionTop - 100) {
+            currentSectionId = section.getAttribute('id');
+          }
+        });
 
-      if (targetElement) {
-        navLinks.forEach(link => link.classList.remove('active'));
-        this.classList.add('active');
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === `#${currentSectionId}`) {
+            link.classList.add('active');
+          }
+        });
+      });
 
-        targetElement.scrollIntoView({
+      // Back to top button
+      const backToTopBtn = document.getElementById('backToTop');
+      window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+          backToTopBtn.classList.add('active');
+        } else {
+          backToTopBtn.classList.remove('active');
+        }
+      });
+
+      backToTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+          top: 0,
           behavior: 'smooth',
-          block: 'start'
         });
-      }
-    });
-  });
+      });
 
-  const sections = document.querySelectorAll('main section[id]');
-  const updateActiveNavLink = () => {
-    let currentSectionId = '';
-    const scrollPosition = window.scrollY + 100;
+      // Set current year in footer
+      document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-    sections.forEach(section => {
-      const top = section.offsetTop;
-      const height = section.offsetHeight;
+      // Form submission handling
+      const contactForm = document.getElementById('contactForm');
+      const formMessage = document.getElementById('formMessage');
 
-      if (scrollPosition >= top && scrollPosition < top + height) {
-        currentSectionId = section.getAttribute('id');
-      }
-    });
+      contactForm.addEventListener('submit', async e => {
+        e.preventDefault();
 
-    navLinks.forEach(link => {
-      link.classList.remove('active');
-      if (link.getAttribute('href') === `#${currentSectionId}`) {
-        link.classList.add('active');
-      }
-    });
-  };
+        const submitBtn = contactForm.querySelector('.submit-btn');
+        const btnText = submitBtn.querySelector('.btn-text');
+        const originalText = btnText.textContent;
 
-  let scrollTimeout;
-  window.addEventListener('scroll', () => {
-    if (!scrollTimeout) {
-      scrollTimeout = setTimeout(() => {
-        updateActiveNavLink();
-        scrollTimeout = null;
-      }, 100);
-    }
-  });
+        submitBtn.disabled = true;
+        btnText.textContent = 'Sending...';
 
-  // Back to top button
-  const backToTopBtn = document.getElementById('backToTop');
-  window.addEventListener('scroll', () => {
-    if (window.pageYOffset > 300) {
-      backToTopBtn.classList.add('active');
-    } else {
-      backToTopBtn.classList.remove('active');
-    }
-  });
+        try {
+          const response = await fetch(contactForm.action, {
+            method: 'POST',
+            body: new FormData(contactForm),
+            headers: {
+              Accept: 'application/json',
+            },
+          });
 
-  backToTopBtn.addEventListener('click', () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  });
+          if (response.ok) {
+            formMessage.textContent = 'Message sent successfully! I will get back to you soon.';
+            formMessage.className = 'form-message success';
+            contactForm.reset();
+          } else {
+            throw new Error('Form submission failed');
+          }
+        } catch (error) {
+          formMessage.textContent = 'There was an error sending your message. Please try again later.';
+          formMessage.className = 'form-message error';
+          console.error('Form submission error:', error);
+        } finally {
+          submitBtn.disabled = false;
+          btnText.textContent = originalText;
 
-  // Current year in footer
-  document.getElementById('currentYear').textContent = new Date().getFullYear();
-
-  // Contact form
-  const contactForm = document.getElementById('contactForm');
-  const formMessage = document.getElementById('formMessage');
-
-  if (contactForm) {
-    contactForm.addEventListener('submit', async e => {
-      e.preventDefault();
-
-      const submitBtn = contactForm.querySelector('.submit-btn');
-      const btnText = submitBtn.querySelector('.btn-text');
-      const originalText = btnText.textContent;
-
-      submitBtn.disabled = true;
-      btnText.textContent = 'Sending...';
-
-      try {
-        const response = await fetch(contactForm.action, {
-          method: 'POST',
-          body: new FormData(contactForm),
-          headers: { Accept: 'application/json' },
-        });
-
-        if (response.ok) {
-          formMessage.textContent = 'Message sent successfully!';
-          formMessage.className = 'form-message success';
-          contactForm.reset();
-        } else {
-          throw new Error('Form submission failed');
-        }
-      } catch (error) {
-        formMessage.textContent = 'Error sending message. Try again later.';
-        formMessage.className = 'form-message error';
-      } finally {
-        submitBtn.disabled = false;
-        btnText.textContent = originalText;
-
-        setTimeout(() => {
-          formMessage.textContent = '';
-          formMessage.className = 'form-message';
-        }, 5000);
-      }
-    });
-  }
-
-  // Portfolio filtering
-  const filterButtons = document.querySelectorAll('.filter-btn');
-  const portfolioItems = document.querySelectorAll('.portfolio-item');
-
-  filterButtons.forEach(button => {
-    button.addEventListener('click', () => {
-
-      filterButtons.forEach(btn => btn.classList.remove('active'));
-      button.classList.add('active');
-
-      const filterValue = button.getAttribute('data-filter');
-
-      portfolioItems.forEach(item => {
-        const category = item.getAttribute('data-category');
-
-        if (filterValue === 'all' || category === filterValue) {
-          item.style.display = 'block';
           setTimeout(() => {
-            item.style.opacity = '1';
-            item.style.transform = 'translateY(0)';
-          }, 50);
-        } else {
-          item.style.opacity = '0';
-          item.style.transform = 'translateY(20px)';
-          setTimeout(() => {
-            item.style.display = 'none';
-          }, 300);
+            formMessage.textContent = '';
+            formMessage.className = 'form-message';
+          }, 5000);
         }
       });
-    });
-  });
 
-  // Skill bar animations
-  const animateSkillBars = () => {
-    const bars = document.querySelectorAll('.skill-progress-bar');
-    bars.forEach(bar => {
-      const width = bar.style.width;
-      bar.style.width = '0';
-      bar.style.transition = 'width 0s';
+      // Portfolio filtering
+      const filterButtons = document.querySelectorAll('.filter-btn');
+      const portfolioItems = document.querySelectorAll('.portfolio-item');
 
-      setTimeout(() => {
-        bar.style.width = width;
-        bar.style.transition = 'width 1.5s ease-in-out';
-      }, 100);
-    });
-  };
+      filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          filterButtons.forEach(btn => btn.classList.remove('active'));
+          button.classList.add('active');
 
-  const skillsSection = document.querySelector('#resume');
-  if (skillsSection) {
-    const skillsObserver = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          animateSkillBars();
-          skillsObserver.unobserve(entry.target);
-        }
+          const filterValue = button.getAttribute('data-filter');
+
+          portfolioItems.forEach(item => {
+            if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+              item.style.display = 'block';
+            } else {
+              item.style.display = 'none';
+            }
+          });
+        });
       });
-    }, {
-      threshold: 0.3,
-      rootMargin: '0px 0px -100px 0px'
+
+      // Animate skill bars on scroll
+      const animateSkillBars = () => {
+        const skillBars = document.querySelectorAll('.skill-progress-bar');
+        skillBars.forEach(bar => {
+          const width = bar.style.width;
+          bar.style.width = '0';
+          setTimeout(() => {
+            bar.style.width = width;
+          }, 100);
+        });
+      };
+
+      const skillsSection = document.querySelector('#resume');
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            animateSkillBars();
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+
+      if (skillsSection) {
+        observer.observe(skillsSection);
+      }
+      
+      // Resume download link (replace with actual path)
+      document.getElementById('downloadResume')?.addEventListener('click', () => {
+        // This is a placeholder - replace with your actual resume URL
+        alert("Resume download functionality would be implemented here with a real PDF file.");
+      });
     });
-
-    skillsObserver.observe(skillsSection);
-  }
-
-  // ================================
-  //  🔥 REAL RESUME PDF DOWNLOAD
-  // ================================
-  const downloadResumeBtn = document.getElementById('downloadResume');
-  if (downloadResumeBtn) {
-    downloadResumeBtn.addEventListener('click', () => {
-      const resumePath = "documents/resume.pdf"; // your actual PDF file path
-
-      const link = document.createElement('a');
-      link.href = resumePath;
-      link.download = "Lakshman_Resume.pdf";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    });
-  }
-
-  const addLoadingAnimations = () => {
-    const animatedElements = document.querySelectorAll('.service-card, .portfolio-item, .timeline-item');
-    animatedElements.forEach((el, index) => {
-      el.style.animationDelay = `${index * 0.1}s`;
-    });
-  };
-
-  addLoadingAnimations();
-});
-
-window.addEventListener('load', () => {
-  animateOnScroll();
-});
-
-document.addEventListener('visibilitychange', () => {
-  if (!document.hidden) animateOnScroll();
-});

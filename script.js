@@ -46,7 +46,7 @@ navLinks.forEach(link => {
 /* ============================
    DARK MODE TOGGLE
 ============================ */
-const themeToggle = document.getElementById("theme-toggle");
+const themeToggle = document.getElementById("themeToggle");
 
 if (themeToggle) {
     themeToggle.addEventListener("click", () => {
@@ -76,7 +76,6 @@ const portfolioItems = document.querySelectorAll(".portfolio-item");
 
 filterButtons.forEach(btn => {
     btn.addEventListener("click", () => {
-        // Remove active style from buttons
         filterButtons.forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
 
@@ -94,20 +93,21 @@ filterButtons.forEach(btn => {
 });
 
 /* ============================
-   SKILL BAR ANIMATION
+   SKILL BAR ANIMATION (B + C)
 ============================ */
 const skillBars = document.querySelectorAll(".skill-progress-bar");
 let skillsAnimated = false;
 
 function animateSkills() {
-    const skillsSection = document.getElementById("skills");
+    const resumeSection = document.getElementById("resume");
 
-    if (!skillsSection) return;
+    if (!resumeSection) return;
 
-    const pos = skillsSection.getBoundingClientRect().top;
+    const pos = resumeSection.getBoundingClientRect().top;
 
     if (pos < window.innerHeight - 100 && !skillsAnimated) {
         skillsAnimated = true;
+
         skillBars.forEach(bar => {
             const value = bar.getAttribute("data-percent");
             bar.style.width = value + "%";
@@ -125,7 +125,6 @@ const contactItems = document.querySelectorAll(".contact-item");
 contactItems.forEach(item => {
     item.addEventListener("click", () => {
         const text = item.getAttribute("data-copy");
-
         if (!text) return;
 
         navigator.clipboard.writeText(text).then(() => {
@@ -143,7 +142,7 @@ contactItems.forEach(item => {
 /* ============================
    SCROLL TO TOP BUTTON
 ============================ */
-const scrollTopBtn = document.getElementById("scroll-top");
+const scrollTopBtn = document.getElementById("backToTop");
 
 window.addEventListener("scroll", () => {
     if (window.scrollY > 400) {
@@ -158,3 +157,6 @@ if (scrollTopBtn) {
         window.scrollTo({ top: 0, behavior: "smooth" });
     });
 }
+
+/* Year in footer */
+document.getElementById("currentYear").textContent = new Date().getFullYear();
